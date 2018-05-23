@@ -47,6 +47,7 @@ public class EtcdRegistry extends FailbackRegistry {
 		etcdClient = new EtcdV3Client(host, port);
 	}
 
+	@Override
 	public boolean isAvailable() {
 		//need to improve
 		boolean isAvailable = false;
@@ -60,6 +61,7 @@ public class EtcdRegistry extends FailbackRegistry {
 		return isAvailable;
 	}
 
+	@Override
 	public void destroy() {
 		super.destroy();
 		try {
@@ -128,6 +130,7 @@ public class EtcdRegistry extends FailbackRegistry {
 						ChildListener categoriesListener = childListeners.get(listener);
 						if (categoriesListener == null) {
 							categoriesListener = new ChildListener() {
+								@Override
 								public void childChanged(String parentpath, List<String> currentChilds) {
 									EtcdRegistry.this.notify(url, listener,
 											toUrlsWithEmpty(url, parentpath, currentChilds));
@@ -149,6 +152,7 @@ public class EtcdRegistry extends FailbackRegistry {
 		}
 	}
 
+	@Override
 	protected void notify(URL url, NotifyListener listener, List<URL> urls) {
 		super.notify(url, listener, urls);
 	}
@@ -164,6 +168,7 @@ public class EtcdRegistry extends FailbackRegistry {
 		ChildListener etcdListener = listeners.get(listener);
 		if (etcdListener == null) {
 			listeners.putIfAbsent(listener, new ChildListener() {
+				@Override
 				public void childChanged(String parentPath, List<String> currentChilds) {
 					if (currentChilds != null && currentChilds.size() > 0) {
 						for (String child : currentChilds) {
@@ -241,6 +246,7 @@ public class EtcdRegistry extends FailbackRegistry {
 
 	}
 
+	@Override
 	public List<URL> lookup(URL url) {
 		logger.info("lookup: " + url);
 

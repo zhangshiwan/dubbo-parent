@@ -120,7 +120,7 @@ public class EtcdClient {
         data.add(new BasicNameValuePair("dir", "true"));
         return set0(key, data, new int[] { 102,200, 201 });
     }
-    
+
     /**
      * Lists a directory
      */
@@ -449,7 +449,7 @@ public class EtcdClient {
         }
     }
 
-    
+
     public void create(String path,boolean isDir) throws EtcdClientException{
 		int i = path.lastIndexOf('/');
 		if (i > 0) {
@@ -478,7 +478,7 @@ public class EtcdClient {
 			targetListener = listeners.get(listener);
 		}
 		return addTargetChildListener(path, targetListener);
-	
+
 	}
 
 	public TargetChildListener createTargetChildListener(String path, final ChildListener listener) {
@@ -494,22 +494,22 @@ public class EtcdClient {
 		EtcdClient etcdClient = new EtcdClient(baseUri);
 		return etcdClient.watchChildChanges(path, listener);
 	}
-	
+
 	private List<String> watchChildChanges(final String path, final TargetChildListener listener) throws Exception {
 
-		ListenableFuture<EtcdResult> watchFuture = watch(path,null,true); 	
+		ListenableFuture<EtcdResult> watchFuture = watch(path,null,true);
 		watchFuture.addListener(new Runnable(){
 			public void run() {
 				try {
 					listener.handleChildChange(path, watchChildChanges(path,listener));
 				} catch (Exception e) {
 					e.printStackTrace();
-				} 
+				}
 			}
 			},
 			Executors.newCachedThreadPool()
 			);
-		
+
 		EtcdResult etcdResult = get(path);
 		final List<String> currentChildren  = getURLsFromResult(path,etcdResult);
 		return currentChildren;
@@ -532,7 +532,7 @@ public class EtcdClient {
 
 		}
 		return list;
-	
+
 	}
 
 	public List<String> getChildren(String path) throws EtcdClientException {
@@ -550,7 +550,7 @@ public class EtcdClient {
 		}
 		return list;
 	}
-    
-	
-    
+
+
+
 }
