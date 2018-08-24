@@ -44,6 +44,7 @@ public class LogbackContainer implements Container {
 
     public void start() {
         String file = ConfigUtils.getProperty(LOGBACK_FILE);
+
         if (file != null && file.length() > 0) {
             String level = ConfigUtils.getProperty(LOGBACK_LEVEL);
             if (level == null || level.length() == 0) {
